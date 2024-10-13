@@ -1,9 +1,6 @@
 package edu.badals;
 
-import org.w3c.dom.DOMImplementation;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Text;
+import org.w3c.dom.*;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -12,8 +9,7 @@ import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import java.beans.XMLEncoder;
+import javax.xml.transform.stream.StreamResult;;
 import java.io.*;
 import java.util.List;
 import java.util.ArrayList;
@@ -63,14 +59,14 @@ public class BinToXML {
 
                 Element name = document.createElement("nombre");
                 ElementPersona.appendChild(name);
-                Text nombreTexto = document.createTextNode(persona.getNombre());
-                name.appendChild(nombreTexto);
+                Text nameText = document.createTextNode(persona.getNombre());
+                name.appendChild(nameText);
 
                 Element age = document.createElement("edad");
                 ElementPersona.appendChild(age);
 
-                Text edadTexto = document.createTextNode(String.valueOf(persona.getEdad()));
-                age.appendChild(edadTexto);
+                Text ageText = document.createTextNode(String.valueOf(persona.getEdad()));
+                age.appendChild(ageText);
 
             }
             Source source = new DOMSource(document);
@@ -85,24 +81,26 @@ public class BinToXML {
 
     public static  List<Persona> readXML(){
         List<Persona> personas = new ArrayList<>();
-        try {
+        try{
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document document = builder.parse(new File(XML_FILE));
-            Element root = document.getDocumentElement();
-            List<Element> elements = new ArrayList<>();
-            for (int i = 0; i < root.getChildNodes().getLength(); i++) {
-                if (root.getChildNodes().item(i).getNodeType() == 1) {
-                    elements.add((Element) root.getChildNodes().item(i));
-                }
+            document.getDocumentElement();
+
+            NodeList nodesPersona = document.getElementsByTagName("persona");
+
+            for(int i = 0; i < nodesPersona.getLength(); i++){
+                Element elementPersona = (Element) nodesPersona.item(i);
+                Element elementName = (Element) elementPersona.getElementsByTagName("nombre").item(0);
+                String name = elementName.getTextContent();
+                Element elementAge = (Element) elementPersona.getElementsByTagName("edad").item(0);
+                String age = elementAge.getTextContent();
+                personas.add(new Persona(name, Integer.parseInt(age)));
             }
-            for (Element element : elements) {
-                String name = element.getElementsByTagName("nombre").item(0).getTextContent();
-                int age = Integer.parseInt(element.getElementsByTagName("edad").item(0).getTextContent());
-                personas.add(new Persona(name, age));
-            }
-        }catch (Exception e){
-            e.printStackTrace();
+
+
+        } catch (Exception e) {
+            System.out.println("No se puede leer el archivo XML " + e.getMessage());
         }
         return personas;
     }

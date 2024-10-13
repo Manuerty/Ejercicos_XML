@@ -1,1 +1,19 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><personas><persona><nombre>Manuel</nombre><edad>30</edad></persona><persona><nombre>Luis</nombre><edad>25</edad></persona><persona><nombre>Maria</nombre><edad>28</edad></persona><persona><nombre>Ana</nombre><edad>35</edad></persona></personas>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<personas>
+    <persona>
+        <nombre>Manuel</nombre>
+        <edad>30</edad>
+    </persona>
+    <persona>
+        <nombre>Luis</nombre>
+        <edad>25</edad>
+    </persona>
+    <persona>
+        <nombre>Maria</nombre>
+        <edad>28</edad>
+    </persona>
+    <persona>
+        <nombre>Ana</nombre>
+        <edad>35</edad>
+    </persona>
+</personas>
